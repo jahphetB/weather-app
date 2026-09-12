@@ -6,6 +6,23 @@
   <title>Weather App</title>
 </head>
 <body>
-  <h1>Weather App</h1>
+  <main>
+    <h1>Weather App</h1>
+
+    <form id="weather-form">
+      <label for="location">Location</label>
+      <input
+        type="text"
+        id="location"
+        name="location"
+        placeholder="Enter a city"
+        required
+      >
+      <button type="submit">Search</button>
+    </form>
+    <button id="unit-toggle" type="button">Switch to °F</button>
+    <p id="weather-error" role="alert"></p>
+    <section id="weather-results" aria-live="polite"></section>
+  </main>
 </body>
 </html>
