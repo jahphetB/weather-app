@@ -8,6 +8,7 @@ const locationInput = document.querySelector("#location");
 
 const unitToggle = document.querySelector("#unit-toggle");
 const weatherError = document.querySelector("#weather-error");
+const weatherLoading = document.querySelector("#weather-loading");
 
 let currentWeather = null;
 let temperatureUnit = "C";
@@ -26,6 +27,7 @@ async function handleWeatherSearch(event) {
 
   const searchId = ++latestSearchId;
   weatherError.textContent = "";
+  weatherLoading.hidden = false;
 
   try {
     const rawData = await fetchWeather(location);
@@ -38,6 +40,10 @@ async function handleWeatherSearch(event) {
     if (searchId !== latestSearchId) return;
 
     weatherError.textContent = error.message;
+  } finally {
+    if (searchId === latestSearchId) {
+      weatherLoading.hidden = true;
+    }
   }
 }
 

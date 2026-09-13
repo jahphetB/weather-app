@@ -48,7 +48,23 @@ function createForecast(forecast, unit) {
 	return section;
 }
 
+function updateWeatherTheme(icon = "") {
+	let theme = "cloudy";
+
+	if (icon.includes("snow")) {
+		theme = "snowy";
+	} else if (icon.includes("rain")) {
+		theme = "rainy";
+	} else if (icon.includes("clear")) {
+		theme = icon.includes("night") ? "night" : "sunny";
+	}
+
+	document.body.dataset.weather = theme;
+}
+
 export function renderWeather(weather, unit) {
+  updateWeatherTheme(weather.current.icon);
+  
   const container = document.querySelector("#weather-results");
 
   const location = document.createElement("h2");
