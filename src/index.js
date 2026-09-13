@@ -2,6 +2,7 @@ import "./styles.css";
 import { fetchWeather } from "./weather-api.js";
 import { processWeatherData } from "./weather-data.js";
 import { renderWeather } from "./weather-view.js";
+import { startCityClock } from "./weather-clock.js";
 
 const weatherForm = document.querySelector("#weather-form");
 const locationInput = document.querySelector("#location");
@@ -36,6 +37,7 @@ async function handleWeatherSearch(event) {
 
     currentWeather = processWeatherData(rawData);
     renderWeather(currentWeather, temperatureUnit);
+    startCityClock(currentWeather);
   } catch (error) {
     if (searchId !== latestSearchId) return;
 
