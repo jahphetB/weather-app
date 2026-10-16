@@ -17,3 +17,4 @@ const app = new AppController({
 });
 
 app.start();
+document.querySelector("#copyright-year").textContent = new Date().getFullYear();

@@ -1,37 +1,78 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find current weather and daily forecasts for cities around the world.">
   <title>Weather App</title>
 </head>
 <body>
-  <main>
+  <a class="skip-link" href="#weather-main">Skip to weather</a>
+  <div class="app-shell">
     <header class="page-header">
-      <h1>Weather App</h1>
-
-      <div id="city-clock" hidden>
-        <p id="clock-location"></p>
-        <time id="clock-time"></time>
-        <p id="clock-symbols"></p>
+      <h1 class="wordmark">WEATHER APP<span class="brand-dot" aria-hidden="true">.</span></h1>
+      <form id="weather-form" role="search" aria-label="Find city weather">
+        <label class="visually-hidden" for="location">City or location</label>
+        <input type="search" id="location" name="location" placeholder="Search a city or location" required>
+        <button type="submit">Search</button>
+      </form>
+      <div id="city-clock">
+        <p id="clock-location">City local time</p>
+        <time id="clock-time">—:—</time>
+        <p id="clock-symbols" aria-label="Search for a city to see its local time">🕒</p>
       </div>
     </header>
 
-    <form id="weather-form">
-      <label for="location">Location</label>
-      <input
-        type="text"
-        id="location"
-        name="location"
-        placeholder="Enter a city"
-        required
-      >
-      <button type="submit">Search</button>
-    </form>
-    <button id="unit-toggle" type="button">Switch to °F</button>
-    <p id="weather-error" role="alert"></p>
-    <p id="weather-loading" role="status" hidden>Loading weather…</p>
-    <section id="weather-results" aria-live="polite"></section>
-  </main>
+    <div class="page-body">
+      <aside class="location-sidebar" aria-labelledby="continents-title">
+        <details class="continent-browser" open>
+          <summary id="continents-title">Explore continents</summary>
+          <p class="sidebar-note" id="continent-note">Country browsing is coming soon.</p>
+          <ul class="continent-list" aria-describedby="continent-note">
+            <li><button type="button" disabled>Africa <span aria-hidden="true">↗</span></button></li>
+            <li><button type="button" disabled>Asia <span aria-hidden="true">↗</span></button></li>
+            <li><button type="button" disabled>Europe <span aria-hidden="true">↗</span></button></li>
+            <li><button type="button" disabled>North America <span aria-hidden="true">↗</span></button></li>
+            <li><button type="button" disabled>South America <span aria-hidden="true">↗</span></button></li>
+            <li><button type="button" disabled>Oceania <span aria-hidden="true">↗</span></button></li>
+            <li><button type="button" disabled>Antarctica <span aria-hidden="true">↗</span></button></li>
+          </ul>
+        </details>
+        <p class="sidebar-caption">A world of weather.<br>One city at a time.</p>
+      </aside>
+
+      <main id="weather-main" tabindex="-1">
+        <p id="weather-error" role="alert"></p>
+        <p id="weather-loading" role="status" hidden>Loading weather…</p>
+        <section id="weather-results" aria-live="polite" aria-label="Current weather">
+          <p class="eyebrow">YOUR DAILY OUTLOOK</p>
+          <h2>Find your local forecast.</h2>
+          <p>Search for a city to see its weather, daily forecast, and local time.</p>
+        </section>
+        <section class="forecast" aria-labelledby="forecast-title">
+          <div class="forecast-header">
+            <div>
+              <p class="eyebrow">PLAN AHEAD</p>
+              <h2 id="forecast-title">Daily forecast</h2>
+            </div>
+            <div class="weather-controls" role="group" aria-label="Weather display options">
+              <button id="unit-toggle" type="button">Switch to °F</button>
+              <button id="air-quality-toggle" type="button" disabled aria-describedby="air-quality-note">Air quality <span class="soon-label">Soon</span></button>
+            </div>
+          </div>
+          <p class="visually-hidden" id="air-quality-note">Air-quality data will be added in a future update.</p>
+          <div id="forecast-results">
+            <p class="forecast-empty">Your daily forecast will appear here.</p>
+          </div>
+        </section>
+        <p class="data-credit">Weather data provided by <a href="https://www.visualcrossing.com/" target="_blank" rel="noopener noreferrer">Visual Crossing</a></p>
+      </main>
+    </div>
+
+    <footer class="page-footer">
+      <p>© <span id="copyright-year">2026</span> <span>jahphetB</span></p>
+      <p>Developed by <a href="https://github.com/jahphetB" target="_blank" rel="noopener noreferrer">jahphetB <span aria-hidden="true">↗</span></a> <span class="footer-divider" aria-hidden="true">/</span> <a href="https://github.com/jahphetB/weather-app" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+    </footer>
+  </div>
 </body>
 </html>

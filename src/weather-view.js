@@ -9,12 +9,6 @@ function formatTemperature(celsius, unit) {
 }
 
 function createForecast(forecast, unit) {
-	const section = document.createElement("section");
-	section.classList.add("forecast");
-
-	const heading = document.createElement("h3");
-	heading.textContent = "Daily forecast";
-
 	const list = document.createElement("div");
 	list.classList.add("forecast-list");
 
@@ -43,9 +37,7 @@ function createForecast(forecast, unit) {
 		list.append(card);
 	});
 
-	section.append(heading, list);
-
-	return section;
+	return list;
 }
 
 function updateWeatherTheme(icon = "") {
@@ -91,6 +83,6 @@ export function renderWeather(weather, unit) {
     temperature,
     feelsLike,
     description,
-    forecast,
   );
+  document.querySelector("#forecast-results").replaceChildren(forecast);
 }
