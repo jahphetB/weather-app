@@ -3,7 +3,7 @@ const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
 
 export class VisualCrossingClient {
-  constructor(fetchImpl = fetch) {
+  constructor(fetchImpl = globalThis.fetch.bind(globalThis)) {
     this.fetchImpl = fetchImpl;
   }
 

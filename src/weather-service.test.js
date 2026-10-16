@@ -3,6 +3,16 @@ import assert from "node:assert/strict";
 import { WeatherService } from "./weather-service.js";
 import { VisualCrossingClient } from "./weather-api.js";
 
+test("the default client calls native fetch with the global receiver", async (t) => {
+  t.mock.method(globalThis, "fetch", function () {
+    assert.equal(this, globalThis);
+    return Promise.resolve({ ok: true, json: async () => ({ location: "Paris" }) });
+  });
+
+  const result = await new VisualCrossingClient().fetchWeather("Paris");
+  assert.equal(result.location, "Paris");
+});
+
 test("the service returns normalized weather for a requested location", async () => {
   let requestedLocation;
   const service = new WeatherService({
