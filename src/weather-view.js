@@ -16,7 +16,7 @@ function createForecast(forecast, unit) {
 		const card = document.createElement("article");
 		card.classList.add("forecast-card");
 
-		const date = document.createElement("h4");
+		const date = document.createElement("h3");
 		date.textContent = new Date(`${day.date}T00:00:00`).toLocaleDateString(
 			undefined,
 			{
@@ -66,6 +66,7 @@ export function renderWeather(weather, unit) {
   conditions.textContent = weather.current.conditions;
 
   const temperature = document.createElement("p");
+  temperature.classList.add("current-temperature");
   temperature.textContent =
     `Temperature: ${formatTemperature(weather.current.temperature, unit)}`;
 
