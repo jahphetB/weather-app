@@ -1,6 +1,6 @@
 import "./styles.css";
-import { fetchWeather } from "./weather-api.js";
-import { processWeatherData } from "./weather-data.js";
+import { VisualCrossingClient } from "./weather-api.js";
+import { WeatherService } from "./weather-service.js";
 import { renderWeather } from "./weather-view.js";
 import { startCityClock } from "./weather-clock.js";
 
@@ -10,6 +10,7 @@ const locationInput = document.querySelector("#location");
 const unitToggle = document.querySelector("#unit-toggle");
 const weatherError = document.querySelector("#weather-error");
 const weatherLoading = document.querySelector("#weather-loading");
+const weatherService = new WeatherService(new VisualCrossingClient());
 
 let currentWeather = null;
 let temperatureUnit = "C";
@@ -31,11 +32,11 @@ async function handleWeatherSearch(event) {
   weatherLoading.hidden = false;
 
   try {
-    const rawData = await fetchWeather(location);
+    const weather = await weatherService.getWeather(location);
 
     if (searchId !== latestSearchId) return;
 
-    currentWeather = processWeatherData(rawData);
+    currentWeather = weather;
     renderWeather(currentWeather, temperatureUnit);
     startCityClock(currentWeather);
   } catch (error) {
