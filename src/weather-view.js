@@ -1,3 +1,5 @@
+import { createAirQualitySummary, createForecastAirQuality } from "./features/air-quality/air-quality-view.js";
+
 function formatTemperature(celsius, unit) {
   if (celsius == null) return "Unavailable";
 
@@ -8,7 +10,7 @@ function formatTemperature(celsius, unit) {
   return `${Math.round(temperature)}°${unit}`;
 }
 
-function createForecast(forecast, unit) {
+function createForecast(forecast, unit, showAirQuality) {
 	const list = document.createElement("div");
 	list.classList.add("forecast-list");
 
@@ -34,6 +36,7 @@ function createForecast(forecast, unit) {
 			`High: ${formatTemperature(day.high, unit)} / Low: ${formatTemperature(day.low, unit)}`;
 
 		card.append(date, conditions, temperatures);
+		if (showAirQuality) card.append(createForecastAirQuality(day.airQuality));
 		list.append(card);
 	});
 
@@ -54,7 +57,7 @@ function updateWeatherTheme(icon = "") {
 	document.body.dataset.weather = theme;
 }
 
-export function renderWeather(weather, unit) {
+export function renderWeather(weather, unit, showAirQuality = false) {
   updateWeatherTheme(weather.current.icon);
   
   const container = document.querySelector("#weather-results");
@@ -76,7 +79,7 @@ export function renderWeather(weather, unit) {
 
   const description = document.createElement("p");
   description.textContent = weather.description;
-  const forecast = createForecast(weather.forecast, unit);
+  const forecast = createForecast(weather.forecast, unit, showAirQuality);
 
   container.replaceChildren(
     location,
@@ -86,4 +89,5 @@ export function renderWeather(weather, unit) {
     description,
   );
   document.querySelector("#forecast-results").replaceChildren(forecast);
+  document.querySelector("#air-quality-panel").replaceChildren(createAirQualitySummary(weather));
 }

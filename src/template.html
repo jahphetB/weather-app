@@ -54,10 +54,12 @@
             </div>
             <div class="weather-controls" role="group" aria-label="Weather display options">
               <button id="unit-toggle" type="button">Switch to °F</button>
-              <button id="air-quality-toggle" type="button" disabled aria-describedby="air-quality-note">Air quality <span class="soon-label">Soon</span></button>
+              <button id="air-quality-toggle" type="button" aria-pressed="false" aria-controls="air-quality-panel">Air quality</button>
             </div>
           </div>
-          <p class="visually-hidden" id="air-quality-note">Air-quality data will be added in a future update.</p>
+          <section id="air-quality-panel" class="air-quality-panel" aria-label="Air quality" aria-live="polite" hidden>
+            <p>Search for a city or choose a country to view air quality.</p>
+          </section>
           <div id="forecast-results">
             <p class="forecast-empty">Your daily forecast will appear here.</p>
           </div>

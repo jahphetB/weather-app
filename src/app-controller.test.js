@@ -16,6 +16,8 @@ function createApp(getWeather) {
   const weatherError = { textContent: "" };
   const weatherLoading = { hidden: true };
   const unitToggle = { textContent: "Switch to °F", addEventListener() {} };
+  const airQualityToggle = { addEventListener() {}, setAttribute(name, value) { this[name] = value; } };
+  const airQualityPanel = { hidden: true };
   const locationInput = {
     value: "",
     addEventListener() {},
@@ -24,15 +26,17 @@ function createApp(getWeather) {
   };
   const app = new AppController({
     weatherService: { getWeather },
-    renderWeather: (weather, unit) => rendered.push({ weather, unit }),
+    renderWeather: (weather, unit, airQuality) => rendered.push({ weather, unit, airQuality }),
     startCityClock: (weather) => clocks.push(weather),
     form: { addEventListener() {} },
     locationInput,
     unitToggle,
+    airQualityToggle,
+    airQualityPanel,
     weatherError,
     weatherLoading,
   });
-  return { app, rendered, clocks, weatherError, weatherLoading, unitToggle };
+  return { app, rendered, clocks, weatherError, weatherLoading, unitToggle, airQualityToggle, airQualityPanel };
 }
 
 test("a slower search cannot replace the most recent location", async () => {
@@ -116,4 +120,27 @@ test("a pending capital request cannot overwrite a subsequent city search", asyn
 
   assert.deepEqual(fixture.rendered.map(({ weather }) => weather.location), ["Tokyo"]);
   assert.equal(fixture.weatherLoading.hidden, true);
+});
+
+test("air quality toggles without requests and persists through unit and location changes", async () => {
+  let requests = 0;
+  const fixture = createApp(async (location) => { requests++; return { location }; });
+  fixture.app.toggleAirQuality();
+  assert.equal(fixture.airQualityPanel.hidden, false);
+  assert.equal(fixture.airQualityToggle["aria-pressed"], "true");
+  assert.equal(requests, 0);
+
+  await fixture.app.loadLocation("Paris");
+  fixture.app.toggleUnit();
+  await fixture.app.selectCountry({ code: "JP", name: "Japan", capital: "Tokyo" });
+  assert.equal(requests, 2);
+  assert.equal(fixture.rendered.at(-1).unit, "F");
+  assert.equal(fixture.rendered.at(-1).airQuality, true);
+  assert.equal(fixture.rendered.at(-1).weather.location, "Tokyo, Japan");
+
+  fixture.app.toggleAirQuality();
+  assert.equal(requests, 2);
+  assert.equal(fixture.airQualityPanel.hidden, true);
+  assert.equal(fixture.airQualityToggle["aria-pressed"], "false");
+  assert.equal(fixture.rendered.at(-1).airQuality, false);
 });

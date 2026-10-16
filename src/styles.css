@@ -153,12 +153,32 @@ h2 { margin: 0 0 0.75rem; font-size: clamp(1.6rem, 3vw, 2.25rem); letter-spacing
 .weather-controls button { background: #eef3fb; color: #243b70; font-size: 0.8rem; padding: 0.65rem 0.8rem; }
 .weather-controls button:hover:not(:disabled) { background: #dde7f8; }
 .weather-controls button:disabled { border-color: var(--line); color: var(--muted); background: #f8fafc; }
-.soon-label { display: inline-block; margin-left: 0.2rem; padding: 0.15rem 0.3rem; border-radius: 4px; font-size: 0.6rem; background: #e9eef4; }
+.weather-controls button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.weather-controls button[aria-pressed="true"]:hover { background: #1c4399; }
+.air-quality-panel { margin-bottom: 1.25rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: 12px; background: #f8fafc; }
+.air-quality-title { margin: 0 0 0.4rem; font-size: 1rem; }
+.air-quality-location { margin: 0; font-size: 0.85rem; color: var(--muted); overflow-wrap: anywhere; }
+.air-quality-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.air-quality-metric { min-width: 0; }
+.air-quality-metric dt { color: var(--muted); font-size: 0.75rem; }
+.air-quality-metric dd { margin: 0.4rem 0; font-size: 1.25rem; font-weight: 600; overflow-wrap: anywhere; }
+.air-quality-note { margin: 0.4rem 0 0; font-size: 0.75rem; line-height: 1.7; color: var(--muted); }
+.aqi-badge { display: inline-block; padding: 0.3rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; line-height: 1.5; color: #4a596b; background: #e8edf3; }
+.air-quality-metric .aqi-badge { display: table; margin-top: 0.4rem; }
+.aqi-badge[data-tone="good"] { color: #165426; background: #dff1e3; }
+.aqi-badge[data-tone="moderate"] { color: #654b08; background: #fff0b9; }
+.aqi-badge[data-tone="sensitive"] { color: #7b360b; background: #ffe4cc; }
+.aqi-badge[data-tone="unhealthy"] { color: #8c202d; background: #ffe1e6; }
+.aqi-badge[data-tone="very-unhealthy"] { color: #65327b; background: #f0dff8; }
+.aqi-badge[data-tone="hazardous"] { color: #fff; background: #792738; }
+.forecast-air-quality { margin-top: 1rem; padding-top: 0.65rem; border-top: 1px solid var(--line); }
+.forecast-air-quality .aqi-badge { margin-top: 0.5rem; }
+.forecast-card .forecast-air-quality p { margin: 0.4rem 0 0; font-size: 0.75rem; font-weight: 400; color: var(--muted); }
 .forecast-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 0.85rem; }
 .forecast-card { padding: 1.1rem; border: 1px solid var(--line); border-radius: 12px; background: #f8fafc; }
 .forecast-card h3 { margin: 0 0 1rem; font-size: 0.9rem; }
 .forecast-card p { margin: 0.65rem 0 0; font-size: 0.8rem; line-height: 1.65; color: var(--muted); }
-.forecast-card p:last-child { color: #253f5c; font-weight: 600; }
+.forecast-card > p:last-of-type { color: #253f5c; font-weight: 600; }
 .forecast-empty { margin: 0; padding: 2.5rem 1rem; border: 1px dashed #cdd8e4; border-radius: 12px; color: var(--muted); text-align: center; font-size: 0.9rem; }
 .data-credit { margin: 1.5rem 0 0; font-size: 0.7rem; color: var(--muted); }
 .page-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding: 1.2rem 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.75rem; }

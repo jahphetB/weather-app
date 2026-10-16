@@ -2,19 +2,22 @@ import { capitalQuery } from "./features/locations/location-catalog.js";
 
 export class AppController {
   constructor({ weatherService, renderWeather, startCityClock, form, locationInput,
-    unitToggle, weatherError, weatherLoading, onLocationChange = () => {} }) {
+    unitToggle, airQualityToggle, airQualityPanel, weatherError, weatherLoading, onLocationChange = () => {} }) {
     this.weatherService = weatherService;
     this.renderWeather = renderWeather;
     this.startCityClock = startCityClock;
     this.form = form;
     this.locationInput = locationInput;
     this.unitToggle = unitToggle;
+    this.airQualityToggle = airQualityToggle;
+    this.airQualityPanel = airQualityPanel;
     this.weatherError = weatherError;
     this.weatherLoading = weatherLoading;
     this.onLocationChange = onLocationChange;
 
     this.currentWeather = null;
     this.temperatureUnit = "C";
+    this.showAirQuality = false;
     this.latestSearchId = 0;
   }
 
@@ -24,6 +27,7 @@ export class AppController {
     });
     this.form.addEventListener("submit", (event) => this.handleSearch(event));
     this.unitToggle.addEventListener("click", () => this.toggleUnit());
+    this.airQualityToggle.addEventListener("click", () => this.toggleAirQuality());
   }
 
   handleSearch(event) {
@@ -58,7 +62,7 @@ export class AppController {
       if (searchId !== this.latestSearchId) return;
 
       this.currentWeather = weather;
-      this.renderWeather(weather, this.temperatureUnit);
+      this.renderWeather(weather, this.temperatureUnit, this.showAirQuality);
       this.startCityClock(weather);
     } catch (error) {
       if (searchId !== this.latestSearchId) return;
@@ -77,7 +81,16 @@ export class AppController {
       : "Switch to °C";
 
     if (this.currentWeather) {
-      this.renderWeather(this.currentWeather, this.temperatureUnit);
+      this.renderWeather(this.currentWeather, this.temperatureUnit, this.showAirQuality);
+    }
+  }
+
+  toggleAirQuality() {
+    this.showAirQuality = !this.showAirQuality;
+    this.airQualityToggle.setAttribute("aria-pressed", String(this.showAirQuality));
+    this.airQualityPanel.hidden = !this.showAirQuality;
+    if (this.currentWeather) {
+      this.renderWeather(this.currentWeather, this.temperatureUnit, this.showAirQuality);
     }
   }
 }

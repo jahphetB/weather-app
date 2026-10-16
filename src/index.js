@@ -21,6 +21,8 @@ const app = new AppController({
   form: document.querySelector("#weather-form"),
   locationInput: document.querySelector("#location"),
   unitToggle: document.querySelector("#unit-toggle"),
+  airQualityToggle: document.querySelector("#air-quality-toggle"),
+  airQualityPanel: document.querySelector("#air-quality-panel"),
   weatherError: document.querySelector("#weather-error"),
   weatherLoading: document.querySelector("#weather-loading"),
   onLocationChange: (countryCode) => locationBrowser.setSelectedCountry(countryCode),
