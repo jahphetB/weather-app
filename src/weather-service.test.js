@@ -61,5 +61,6 @@ test("the client requests current and daily metric weather", async () => {
   assert.equal(decodeURIComponent(requestedUrl.pathname).endsWith("/Tokyo, Japan"), true);
   assert.equal(requestedUrl.searchParams.get("include"), "current,days");
   assert.equal(requestedUrl.searchParams.get("unitGroup"), "metric");
+  assert.equal(requestedUrl.searchParams.get("elements"), "+aqius,+pm2p5,+pm10");
   assert.equal(result.resolvedAddress, "Tokyo");
 });

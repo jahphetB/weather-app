@@ -14,6 +14,7 @@ export class VisualCrossingClient {
       key: API_KEY,
       unitGroup: "metric",
       include: "current,days",
+      elements: "+aqius,+pm2p5,+pm10",
       contentType: "json",
     }).toString();
 
