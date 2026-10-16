@@ -1,69 +1,19 @@
 import "./styles.css";
+import { AppController } from "./app-controller.js";
 import { VisualCrossingClient } from "./weather-api.js";
 import { WeatherService } from "./weather-service.js";
 import { renderWeather } from "./weather-view.js";
 import { startCityClock } from "./weather-clock.js";
 
-const weatherForm = document.querySelector("#weather-form");
-const locationInput = document.querySelector("#location");
-
-const unitToggle = document.querySelector("#unit-toggle");
-const weatherError = document.querySelector("#weather-error");
-const weatherLoading = document.querySelector("#weather-loading");
-const weatherService = new WeatherService(new VisualCrossingClient());
-
-let currentWeather = null;
-let temperatureUnit = "C";
-let latestSearchId = 0;
-
-async function handleWeatherSearch(event) {
-  event.preventDefault();
-
-  const location = locationInput.value.trim();
-
-  if (!location) {
-    locationInput.setCustomValidity("Please enter a location.");
-    locationInput.reportValidity();
-    return;
-  }
-
-  const searchId = ++latestSearchId;
-  weatherError.textContent = "";
-  weatherLoading.hidden = false;
-
-  try {
-    const weather = await weatherService.getWeather(location);
-
-    if (searchId !== latestSearchId) return;
-
-    currentWeather = weather;
-    renderWeather(currentWeather, temperatureUnit);
-    startCityClock(currentWeather);
-  } catch (error) {
-    if (searchId !== latestSearchId) return;
-
-    weatherError.textContent = error.message;
-  } finally {
-    if (searchId === latestSearchId) {
-      weatherLoading.hidden = true;
-    }
-  }
-}
-
-locationInput.addEventListener("input", () => {
-    locationInput.setCustomValidity("");
+const app = new AppController({
+  weatherService: new WeatherService(new VisualCrossingClient()),
+  renderWeather,
+  startCityClock,
+  form: document.querySelector("#weather-form"),
+  locationInput: document.querySelector("#location"),
+  unitToggle: document.querySelector("#unit-toggle"),
+  weatherError: document.querySelector("#weather-error"),
+  weatherLoading: document.querySelector("#weather-loading"),
 });
 
-weatherForm.addEventListener("submit", handleWeatherSearch);
-
-unitToggle.addEventListener("click", () => {
-    temperatureUnit = temperatureUnit === "C" ? "F" : "C";
-
-    unitToggle.textContent = temperatureUnit === "C"
-    ? "Switch to °F"
-    : "Switch to °C";
-
-    if (currentWeather) {
-    renderWeather(currentWeather, temperatureUnit);
-    }
-});
+app.start();
