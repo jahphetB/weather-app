@@ -5,7 +5,7 @@
 on October 16, 2026. Its source revision is recorded at the top of the file.
 The original license is preserved in `COUNTRIES-LICENSE.txt`.
 
-Only the ISO code, English name, primary continent, and capital are retained.
+Only the two-letter country code, English name, primary continent, and capital are retained.
 The browser includes countries and territories that have a capital in the
 source. Entries without capitals and all Antarctic entries are omitted.
 Antarctica has no national capitals and receives an explicit empty state.

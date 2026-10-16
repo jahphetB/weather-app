@@ -76,3 +76,44 @@ test("switching units rerenders loaded weather without another request", async (
   assert.deepEqual(fixture.rendered.map(({ unit }) => unit), ["C", "F"]);
   assert.equal(fixture.unitToggle.textContent, "Switch to °C");
 });
+
+test("country selection loads its capital and a later city search clears its selection", async () => {
+  const requests = [];
+  const selections = [];
+  const fixture = createApp(async (location) => {
+    requests.push(location);
+    return { location };
+  });
+  fixture.app.onLocationChange = (code) => selections.push(code);
+  fixture.app.locationInput.setCustomValidity = (value) => {
+    fixture.app.locationInput.validityMessage = value;
+  };
+
+  await fixture.app.selectCountry({ code: "FR", name: "France", capital: "Paris" });
+  assert.equal(fixture.app.locationInput.value, "Paris, France");
+  assert.equal(fixture.app.locationInput.validityMessage, "");
+  assert.equal(fixture.clocks[0].location, "Paris, France");
+
+  fixture.app.locationInput.value = "  Tokyo  ";
+  let prevented = false;
+  await fixture.app.handleSearch({ preventDefault() { prevented = true; } });
+
+  assert.equal(prevented, true);
+  assert.deepEqual(requests, ["Paris, France", "Tokyo"]);
+  assert.deepEqual(selections, ["FR", null]);
+  assert.equal(fixture.rendered.at(-1).weather.location, "Tokyo");
+});
+
+test("a pending capital request cannot overwrite a subsequent city search", async () => {
+  const paris = deferred();
+  const fixture = createApp((location) => location === "Paris, France"
+    ? paris.promise : Promise.resolve({ location }));
+
+  const countrySearch = fixture.app.selectCountry({ code: "FR", name: "France", capital: "Paris" });
+  await fixture.app.loadLocation("Tokyo");
+  paris.resolve({ location: "Paris" });
+  await countrySearch;
+
+  assert.deepEqual(fixture.rendered.map(({ weather }) => weather.location), ["Tokyo"]);
+  assert.equal(fixture.weatherLoading.hidden, true);
+});

@@ -14,9 +14,11 @@ A weather forecast app built using the Visual Crossing API.
 - Use a responsive dashboard with a centered search, continent sidebar, and forecast controls.
 - Collapse the continent sidebar to make room for weather on smaller screens.
 - Show copyright and developer credits for Yaphet Bashahider with GitHub links.
+- Browse continents and an alphabetical country list with seven visible rows.
+- Select a country to load its capital's current weather, forecast, and local time.
 
-The continent buttons and Air quality control are currently disabled placeholders.
-Country/capital navigation is the next milestone, followed by air-quality data.
+The Air quality control is currently a disabled placeholder; air-quality data is
+the next milestone.
 
 ## Application Structure
 
@@ -26,6 +28,9 @@ Country/capital navigation is the next milestone, followed by air-quality data.
 - `src/weather-service.js` returns normalized weather through `src/weather-data.js`.
 - `src/weather-view.js` renders current conditions and the forecast grid.
 - `src/weather-clock.js` updates the selected city's local clock and emojis.
+- `src/features/locations/` contains the continent/country browser and catalog queries.
+- `src/data/countries.js` bundles 245 country/territory capital locations; see
+  [the data notes](src/data/README.md) for source, license, and geographic conventions.
 - `src/template.html` and `src/styles.css` define the responsive dashboard layout.
 
 ## Verification
@@ -35,6 +40,11 @@ Run the focused regression tests with `npm test` and the production build with
 and mobile sizes using a live city search, temperature switching, and sidebar
 collapse. Browser verification caught and fixed the API client's native-fetch
 receiver binding.
+
+The country navigation milestone was checked with live Paris, Berlin, and Addis Ababa results,
+keyboard selection, the Antarctica empty state, and country-list scrolling. A city
+search clears the country highlight; country and city searches share stale-response
+protection. The country list stays inside its own scrolling box on mobile too.
 
 ## Built With
 

@@ -1,6 +1,8 @@
+import { capitalQuery } from "./features/locations/location-catalog.js";
+
 export class AppController {
   constructor({ weatherService, renderWeather, startCityClock, form, locationInput,
-    unitToggle, weatherError, weatherLoading }) {
+    unitToggle, weatherError, weatherLoading, onLocationChange = () => {} }) {
     this.weatherService = weatherService;
     this.renderWeather = renderWeather;
     this.startCityClock = startCityClock;
@@ -9,6 +11,7 @@ export class AppController {
     this.unitToggle = unitToggle;
     this.weatherError = weatherError;
     this.weatherLoading = weatherLoading;
+    this.onLocationChange = onLocationChange;
 
     this.currentWeather = null;
     this.temperatureUnit = "C";
@@ -36,9 +39,18 @@ export class AppController {
     return this.loadLocation(location);
   }
 
-  async loadLocation(location) {
+  selectCountry(country) {
+    const location = capitalQuery(country);
+    this.locationInput.value = location;
+    this.locationInput.setCustomValidity("");
+    return this.loadLocation(location, country.code);
+  }
+
+  async loadLocation(location, countryCode = null) {
     const searchId = ++this.latestSearchId;
+    this.onLocationChange(countryCode);
     this.weatherError.textContent = "";
+    this.weatherLoading.textContent = `Loading weather for ${location}…`;
     this.weatherLoading.hidden = false;
 
     try {

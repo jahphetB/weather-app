@@ -27,16 +27,13 @@
       <aside class="location-sidebar" aria-labelledby="continents-title">
         <details class="continent-browser" open>
           <summary id="continents-title">Explore continents</summary>
-          <p class="sidebar-note" id="continent-note">Country browsing is coming soon.</p>
-          <ul class="continent-list" aria-describedby="continent-note">
-            <li><button type="button" disabled>Africa <span aria-hidden="true">↗</span></button></li>
-            <li><button type="button" disabled>Asia <span aria-hidden="true">↗</span></button></li>
-            <li><button type="button" disabled>Europe <span aria-hidden="true">↗</span></button></li>
-            <li><button type="button" disabled>North America <span aria-hidden="true">↗</span></button></li>
-            <li><button type="button" disabled>South America <span aria-hidden="true">↗</span></button></li>
-            <li><button type="button" disabled>Oceania <span aria-hidden="true">↗</span></button></li>
-            <li><button type="button" disabled>Antarctica <span aria-hidden="true">↗</span></button></li>
-          </ul>
+          <p class="sidebar-note" id="continent-note">Choose a continent, then a country to see its capital's weather.</p>
+          <ul id="continent-list" class="continent-list" aria-describedby="continent-note"></ul>
+          <section id="country-panel" class="country-panel" aria-labelledby="country-heading" hidden>
+            <h2 id="country-heading">Countries &amp; territories</h2>
+            <p id="country-status" class="country-status" role="status"></p>
+            <ul id="country-list" class="country-list"></ul>
+          </section>
         </details>
         <p class="sidebar-caption">A world of weather.<br>One city at a time.</p>
       </aside>
@@ -47,7 +44,7 @@
         <section id="weather-results" aria-live="polite" aria-label="Current weather">
           <p class="eyebrow">YOUR DAILY OUTLOOK</p>
           <h2>Find your local forecast.</h2>
-          <p>Search for a city to see its weather, daily forecast, and local time.</p>
+          <p>Search for a city or explore a continent to see weather, daily forecasts, and local time.</p>
         </section>
         <section class="forecast" aria-labelledby="forecast-title">
           <div class="forecast-header">
@@ -65,7 +62,7 @@
             <p class="forecast-empty">Your daily forecast will appear here.</p>
           </div>
         </section>
-        <p class="data-credit">Weather data provided by <a href="https://www.visualcrossing.com/" target="_blank" rel="noopener noreferrer">Visual Crossing</a></p>
+        <p class="data-credit">Weather data provided by <a href="https://www.visualcrossing.com/" target="_blank" rel="noopener noreferrer">Visual Crossing</a><br>Country data: <a href="https://github.com/annexare/Countries" target="_blank" rel="noopener noreferrer">Annexare</a> · <a id="country-data-license" target="_blank" rel="noopener noreferrer">MIT license</a></p>
       </main>
     </div>
 
