@@ -8,13 +8,14 @@ A weather forecast app built using the Visual Crossing API.
 - Search weather by location.
 - View current conditions and daily forecasts.
 - Toggle temperatures between Celsius and Fahrenheit.
-- Change the background based on the weather.
+- Change the page background with the selected city's time: warm morning, pale daytime, dark night.
+- Color each forecast card according to that day's weather.
 - Display the city’s local time with day/night and weather emojis.
 - Show loading indicators and error messages.
 - Use a responsive dashboard with a centered search, continent sidebar, and forecast controls.
-- Collapse the continent sidebar to make room for weather on smaller screens.
+- Start the continent sidebar collapsed on phones and expanded on larger screens.
 - Show copyright and developer credits for Yaphet Bashahider with GitHub links.
-- Browse continents and an alphabetical country list with seven visible rows.
+- Open an alphabetical country box directly below a continent, with four visible rows and scrolling for the rest.
 - Select a country to load its capital's current weather, forecast, and local time.
 
 - Toggle current and daily air quality alongside weather, including US AQI,
@@ -53,6 +54,7 @@ Next milestone: final integration and accessibility checks, then release prepara
 - `src/weather-clock.js` updates the selected city's local clock and emojis.
 - `src/features/locations/` contains the continent/country browser and catalog queries.
 - `src/features/air-quality/` normalizes AQ data, classifies US AQI, and renders the summary/cards.
+- `src/features/appearance/` separates time-of-day page colors from forecast weather colors.
 - `src/data/countries.js` bundles 245 country/territory capital locations; see
   [the data notes](src/data/README.md) for source, license, and geographic conventions.
 - `src/template.html` and `src/styles.css` define the responsive dashboard layout.
@@ -73,6 +75,20 @@ protection. The country list stays inside its own scrolling box on mobile too.
 The air-quality milestone includes category-boundary and missing/invalid/zero-value
 tests, toggle/state tests, live Paris checks on desktop and mobile, and a controlled
 browser response with missing current AQ, zero values, and partial daily pollutants.
+
+Location labels use `City, Region, Country` where the provider supplies all three.
+Whitespace and capitalization are normalized, and the resolved label is also shown
+in the search box. If a county and region are both supplied, the enclosing region
+is used. Missing regions are omitted rather than invented.
+
+The page follows the selected city's sunrise/sunset, with morning before noon and
+daytime after noon. Without sun times it uses a 6 a.m.–6 p.m. daylight fallback in
+the city's timezone. Before a search, it follows the browser's local time.
+
+These display adjustments were verified with three new focused tests and one
+browser flow covering phone collapse, inline four-row countries, normalized labels,
+desktop expansion, and morning/day/night transitions with independent card colors.
+The previously verified regression suite was not rerun for this adjustment.
 
 ## Built With
 

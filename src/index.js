@@ -7,6 +7,7 @@ import { startCityClock, startLocalTheme } from "./weather-clock.js";
 import { LocationBrowser } from "./features/locations/location-browser.js";
 
 const locationBrowser = new LocationBrowser({
+  disclosure: document.querySelector(".continent-browser"),
   continentList: document.querySelector("#continent-list"),
   countryPanel: document.querySelector("#country-panel"),
   countryList: document.querySelector("#country-list"),

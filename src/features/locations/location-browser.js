@@ -1,7 +1,10 @@
 import { continents, countriesForContinent } from "./location-catalog.js";
 
 export class LocationBrowser {
-  constructor({ continentList, countryPanel, countryList, countryStatus, onSelectCountry }) {
+  constructor({ disclosure, continentList, countryPanel, countryList, countryStatus, onSelectCountry,
+    mobileQuery = window.matchMedia("(max-width: 700px)") }) {
+    this.disclosure = disclosure;
+    this.mobileQuery = mobileQuery;
     this.continentList = continentList;
     this.countryPanel = countryPanel;
     this.countryList = countryList;
@@ -12,6 +15,9 @@ export class LocationBrowser {
   }
 
   start() {
+    const syncDisclosure = () => { this.disclosure.open = !this.mobileQuery.matches; };
+    syncDisclosure();
+    this.mobileQuery.addEventListener("change", syncDisclosure);
     const items = continents.map((continent) => {
       const item = this.document.createElement("li");
       const button = this.document.createElement("button");
@@ -19,6 +25,7 @@ export class LocationBrowser {
       button.textContent = continent.name;
       button.dataset.continent = continent.code;
       button.setAttribute("aria-pressed", "false");
+      button.setAttribute("aria-expanded", "false");
       button.setAttribute("aria-controls", this.countryPanel.id);
       button.addEventListener("click", () => this.selectContinent(continent));
       item.append(button);
@@ -28,8 +35,11 @@ export class LocationBrowser {
   }
 
   selectContinent(continent) {
-    for (const button of this.continentList.querySelectorAll("button")) {
-      button.setAttribute("aria-pressed", String(button.dataset.continent === continent.code));
+    for (const button of this.continentList.querySelectorAll("button[data-continent]")) {
+      const selected = button.dataset.continent === continent.code;
+      button.setAttribute("aria-pressed", String(selected));
+      button.setAttribute("aria-expanded", String(selected));
+      if (selected) button.parentElement.append(this.countryPanel);
     }
 
     const countries = countriesForContinent(continent.code);
