@@ -1,4 +1,5 @@
 import { createAirQualitySummary, createForecastAirQuality } from "./features/air-quality/air-quality-view.js";
+import { getWeatherTheme } from "./features/appearance/weather-theme.js";
 
 function formatTemperature(celsius, unit) {
   if (celsius == null) return "Unavailable";
@@ -17,6 +18,7 @@ function createForecast(forecast, unit, showAirQuality) {
 	forecast.forEach((day) => {
 		const card = document.createElement("article");
 		card.classList.add("forecast-card");
+		card.dataset.weather = getWeatherTheme(day.icon);
 
 		const date = document.createElement("h3");
 		date.textContent = new Date(`${day.date}T00:00:00`).toLocaleDateString(
@@ -43,23 +45,7 @@ function createForecast(forecast, unit, showAirQuality) {
 	return list;
 }
 
-function updateWeatherTheme(icon = "") {
-	let theme = "cloudy";
-
-	if (icon.includes("snow")) {
-		theme = "snowy";
-	} else if (icon.includes("rain")) {
-		theme = "rainy";
-	} else if (icon.includes("clear")) {
-		theme = icon.includes("night") ? "night" : "sunny";
-	}
-
-	document.body.dataset.weather = theme;
-}
-
 export function renderWeather(weather, unit, showAirQuality = false) {
-  updateWeatherTheme(weather.current.icon);
-  
   const container = document.querySelector("#weather-results");
 
   const location = document.createElement("h2");

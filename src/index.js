@@ -3,7 +3,7 @@ import { AppController } from "./app-controller.js";
 import { VisualCrossingClient } from "./weather-api.js";
 import { WeatherService } from "./weather-service.js";
 import { renderWeather } from "./weather-view.js";
-import { startCityClock } from "./weather-clock.js";
+import { startCityClock, startLocalTheme } from "./weather-clock.js";
 import { LocationBrowser } from "./features/locations/location-browser.js";
 
 const locationBrowser = new LocationBrowser({
@@ -29,6 +29,7 @@ const app = new AppController({
 });
 
 locationBrowser.start();
+startLocalTheme();
 app.start();
 document.querySelector("#copyright-year").textContent = new Date().getFullYear();
 document.querySelector("#country-data-license").href = new URL(

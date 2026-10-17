@@ -1,4 +1,20 @@
+import { getTimeOfDay } from "./features/appearance/time-theme.js";
+
 let clockInterval;
+
+function updateTimeTheme(now, timeZone, sun) {
+  const theme = getTimeOfDay(now, timeZone, sun);
+  if (document.body.dataset.timeOfDay !== theme) document.body.dataset.timeOfDay = theme;
+  return theme;
+}
+
+export function startLocalTheme() {
+  clearInterval(clockInterval);
+  const timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const update = () => updateTimeTheme(new Date(), timeZone);
+  update();
+  clockInterval = setInterval(update, 60_000);
+}
 
 function getWeatherEmoji(icon = "") {
 	if (icon.includes("thunder")) return "⛈️";
@@ -45,17 +61,9 @@ export function startCityClock(weather) {
 		const date = `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
 		const today = weather.forecast.find((day) => day.date === date);
 
-		let dayEmoji = "🕒";
-		let dayLabel = "Local time";
-
-		if (today?.sunrise != null && today?.sunset != null) {
-			const isDay =
-				now.getTime() >= today.sunrise * 1000 &&
-				now.getTime() < today.sunset * 1000;
-
-			dayEmoji = isDay ? "☀️" : "🌙";
-			dayLabel = isDay ? "Daytime" : "Nighttime";
-		}
+		const theme = updateTimeTheme(now, weather.timezone, today);
+		const dayEmoji = theme === "night" ? "🌙" : "☀️";
+		const dayLabel = theme === "night" ? "Nighttime" : theme === "morning" ? "Morning" : "Daytime";
 
 		time.textContent = timeFormatter.format(now);
 		time.dateTime = now.toISOString();

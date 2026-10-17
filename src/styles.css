@@ -17,11 +17,9 @@ body {
   min-height: 100vh;
   background: linear-gradient(135deg, #e5edf7, #f1f4f8);
 }
-body[data-weather="sunny"] { background: linear-gradient(135deg, #ffe6af, #fff5df); }
-body[data-weather="cloudy"] { background: linear-gradient(135deg, #cbd5e1, #e9eef3); }
-body[data-weather="rainy"] { background: linear-gradient(135deg, #94b4cc, #d8e5ef); }
-body[data-weather="snowy"] { background: linear-gradient(135deg, #d6edf6, #f2faff); }
-body[data-weather="night"] { background: linear-gradient(135deg, #19243c, #344968); }
+body[data-time-of-day="morning"] { background: linear-gradient(135deg, #f5bc83, #fff1cd); }
+body[data-time-of-day="day"] { background: linear-gradient(135deg, #f5f7fa, #ffffff); }
+body[data-time-of-day="night"] { background: linear-gradient(135deg, #080c14, #202938); }
 
 .app-shell {
   max-width: 1440px;
@@ -176,6 +174,14 @@ h2 { margin: 0 0 0.75rem; font-size: clamp(1.6rem, 3vw, 2.25rem); letter-spacing
 .forecast-card .forecast-air-quality p { margin: 0.4rem 0 0; font-size: 0.75rem; font-weight: 400; color: var(--muted); }
 .forecast-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 0.85rem; }
 .forecast-card { padding: 1.1rem; border: 1px solid var(--line); border-radius: 12px; background: #f8fafc; }
+.forecast-card[data-weather="sunny"] { background: #fff2c9; border-color: #ecdbab; }
+.forecast-card[data-weather="partly-cloudy"] { background: linear-gradient(135deg, #fff6dc, #eaf1f8); }
+.forecast-card[data-weather="cloudy"] { background: #e9edf2; }
+.forecast-card[data-weather="rainy"] { background: #dfeef9; border-color: #bfd6e8; }
+.forecast-card[data-weather="snowy"] { background: #effaff; border-color: #cce5ef; }
+.forecast-card[data-weather="stormy"] { background: #e5e0f1; border-color: #cfc6e1; }
+.forecast-card[data-weather="foggy"] { background: #e8eeec; }
+.forecast-card[data-weather="windy"] { background: #e3f3f0; }
 .forecast-card h3 { margin: 0 0 1rem; font-size: 0.9rem; }
 .forecast-card p { margin: 0.65rem 0 0; font-size: 0.8rem; line-height: 1.65; color: var(--muted); }
 .forecast-card > p:last-of-type { color: #253f5c; font-weight: 600; }

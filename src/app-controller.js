@@ -62,6 +62,7 @@ export class AppController {
       if (searchId !== this.latestSearchId) return;
 
       this.currentWeather = weather;
+      this.locationInput.value = weather.location;
       this.renderWeather(weather, this.temperatureUnit, this.showAirQuality);
       this.startCityClock(weather);
     } catch (error) {

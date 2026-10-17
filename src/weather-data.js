@@ -1,10 +1,11 @@
 import { normalizeAirQuality } from "./features/air-quality/air-quality.js";
+import { formatLocation } from "./features/locations/format-location.js";
 
 export function processWeatherData(data) {
   const current = data.currentConditions;
 
   return {
-    location: data.resolvedAddress,
+    location: formatLocation(data.resolvedAddress),
     timezone: data.timezone,
     description: data.description,
     current: {
