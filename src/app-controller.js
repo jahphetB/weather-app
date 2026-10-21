@@ -28,6 +28,10 @@ export class AppController {
     this.form.addEventListener("submit", (event) => this.handleSearch(event));
     this.unitToggle.addEventListener("click", () => this.toggleUnit());
     this.airQualityToggle.addEventListener("click", () => this.toggleAirQuality());
+
+    const defaultLocation = "Boise, ID";
+    this.locationInput.value = defaultLocation;
+    return this.loadLocation(defaultLocation);
   }
 
   handleSearch(event) {
