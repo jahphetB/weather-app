@@ -39,6 +39,22 @@ function createApp(getWeather) {
   return { app, rendered, clocks, weatherError, weatherLoading, unitToggle, airQualityToggle, airQualityPanel };
 }
 
+test("startup loads Boise weather as the initial forecast", async () => {
+  const requests = [];
+  const fixture = createApp(async (location) => {
+    requests.push(location);
+    return { location: "Boise, Idaho, United States" };
+  });
+
+  await fixture.app.start();
+
+  assert.deepEqual(requests, ["Boise, ID"]);
+  assert.equal(fixture.app.locationInput.value, "Boise, Idaho, United States");
+  assert.equal(fixture.rendered[0].weather.location, "Boise, Idaho, United States");
+  assert.equal(fixture.clocks[0].location, "Boise, Idaho, United States");
+  assert.equal(fixture.weatherLoading.hidden, true);
+});
+
 test("a slower search cannot replace the most recent location", async () => {
   const paris = deferred();
   const tokyo = deferred();
